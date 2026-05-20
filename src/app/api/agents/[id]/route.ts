@@ -18,11 +18,9 @@ export async function PATCH(request: Request, ctx: { params: { id: string } | Pr
   try {
     const { id } = await ctx.params;
     const body = (await request.json()) as Partial<Omit<Agent, 'id'>>;
-    console.log('Updating agent:', id, 'with body:', body);
     
     // For AI mode, validate and ensure proper structure
     if (body.mode === 'ai') {
-      console.log('Processing AI mode agent update');
       
       // Ensure aiSettings exists
       if (!body.aiSettings) {
@@ -38,7 +36,7 @@ export async function PATCH(request: Request, ctx: { params: { id: string } | Pr
     await addLog({
       user: 'Admin',
       action: 'Updated Agent',
-      details: `Agent ${id} updated.`,
+      details: 'Agent updated.',
       type: 'info',
     });
     const updated = await getAgent(id);
@@ -56,7 +54,7 @@ export async function DELETE(_req: Request, ctx: { params: { id: string } | Prom
     await addLog({
       user: 'Admin',
       action: 'Deleted Agent',
-      details: `Agent ${id} deleted.`,
+      details: 'Agent deleted.',
       type: 'warning',
     });
     return NextResponse.json({ success: true });
