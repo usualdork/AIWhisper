@@ -19,8 +19,8 @@ export async function DELETE(request: Request) {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
 
-        if (!id) {
-            return NextResponse.json({ message: 'File ID is required.' }, { status: 400 });
+        if (!id || !/^file_\d+$/.test(id)) {
+            return NextResponse.json({ message: 'Invalid or missing file ID.' }, { status: 400 });
         }
 
         const files = await getKnowledgeFiles();
